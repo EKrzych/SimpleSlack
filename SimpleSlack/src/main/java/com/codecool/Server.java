@@ -25,6 +25,7 @@ public class Server {
 
     protected void handleConnection() throws IOException {
         while(true) {
+            System.out.println("Waiting for connection");
             selector.select();
             Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
 
@@ -37,6 +38,7 @@ public class Server {
                     SocketChannel channel = server.accept();
                     channel.configureBlocking(false);
                     channel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+                    System.out.println("Connection accepted");
                 } else if(key.isReadable()) {
                     SocketChannel channel = (SocketChannel) key.channel();
                     ByteBuffer buffer = (ByteBuffer) key.attachment();
